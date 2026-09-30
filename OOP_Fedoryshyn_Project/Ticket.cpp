@@ -4,6 +4,10 @@
 #include <algorithm>
 #include <cstdlib>
 
+// Пункт 4(3) Створення статичної властивості
+int Ticket::ticketCount = 0;
+
+// Пункт 1(3) - Визначення конструктора без параметрів
 Ticket::Ticket()
     : id(0),
     price(0),
@@ -15,8 +19,10 @@ Ticket::Ticket()
     seat_(0),
     ticketType_(""),
     isSold_(false) {
+    ticketCount++;
 }
 
+// Пункт 1(3) - Визначення конструктора з параметрами
 Ticket::Ticket(int id, double price, const std::string& concert_name,
     const std::string& date, const std::string& time,
     const std::string& sector, int row, int seat,
@@ -31,6 +37,30 @@ Ticket::Ticket(int id, double price, const std::string& concert_name,
     seat_(seat),
     ticketType_(ticket_type),
     isSold_(is_sold) {
+    ticketCount++;
+}
+
+// Пункт 1(3) - Визначення конструктора копіювання
+Ticket::Ticket(const Ticket& other)
+    : id(other.id),
+    price(other.price),
+    concertName(other.concertName),
+    date_(other.date_),
+    time_(other.time_),
+    sector_(other.sector_),
+    row_(other.row_),
+    seat_(other.seat_),
+    ticketType_(other.ticketType_),
+    isSold_(other.isSold_) {
+    ticketCount++;
+}
+
+// Пункт 3(3) - Визначення деструктора
+Ticket::~Ticket() {
+    ticketCount--;
+
+    std::cout << "Entering destruction of Ticket object. "
+        << "Ticket ID: " << id << std::endl;
 }
 
 void Ticket::ShowInfo() 
@@ -80,6 +110,15 @@ bool Ticket::Sell()
     return true;
 }
 
+bool Ticket::CancelSale() {
+    if (!isSold_) {
+        return false;
+    }   
+
+    isSold_ = false;
+    return true;
+}
+
 bool Ticket::CompareTicket(const Ticket& other) 
 {
     return price == other.price &&
@@ -88,9 +127,14 @@ bool Ticket::CompareTicket(const Ticket& other)
         seat_ == other.seat_;
 }
 
+// Пункт 7 - Створення методу який повертає об'єкт класу
 Ticket Ticket::CreateCopy() 
 {
-    return *this;
+    Ticket copy(*this);
+
+    copy.ShowInfo();
+
+    return copy;
 }
 
 void Ticket::SaveToFile(const std::string& file_name) 
@@ -177,149 +221,8 @@ void Ticket::GenerateAndSortPrices()
     delete[] prices;
 }
 
-Visitor::Visitor()
-    : id(0),
-    name(""),
-    phone(""),
-    email_(""),
-    age_(0),
-    city_(""),
-    balance_(0),
-    purchasedTickets_(0),
-    hasDiscount_(false),
-    ticket_() {
-}
-
-Visitor::Visitor(int id, const std::string& name, const std::string& phone)
-    : id(id),
-    name(name),
-    phone(phone),
-    email_(""),
-    age_(0),
-    city_(""),
-    balance_(0),
-    purchasedTickets_(0),
-    hasDiscount_(false),
-    ticket_() {
-}
-
-void Visitor::ShowInfo() 
-{
-    std::cout << "ID: " << id << std::endl;
-    std::cout << "Name: " << name << std::endl;
-    std::cout << "Phone: " << phone << std::endl;
-    std::cout << "Email: " << email_ << std::endl;
-    std::cout << "Age: " << age_ << std::endl;
-    std::cout << "City: " << city_ << std::endl;
-    std::cout << "Balance: " << balance_ << " UAH" << std::endl;
-    std::cout << "Purchased tickets: " << purchasedTickets_ << std::endl;
-    std::cout << "Discount: " << (hasDiscount_ ? "Yes" : "No") << std::endl;
-
-    std::cout << "Visitor's ticket:" << std::endl;
-    ticket_.ShowInfo();
-}
-
-void Visitor::AddBalance(double amount)
-{
-    if (amount > 0) {
-        balance_ += amount;
-    }
-}
-
-void Visitor::AddBalance(double amount, bool bonus) 
-{
-    if (amount <= 0)
-    {
-        return;
-    }
-
-    balance_ += amount;
-
-    if (bonus) {
-        balance_ += amount * 0.1;
-    }
-}
-
-bool Visitor::BuyTicket(Ticket& newTicket) 
-{
-    if (newTicket.price > balance_) 
-    {
-        return false;
-    }
-
-    if (!newTicket.Sell()) 
-    {
-        return false;
-    }
-
-    balance_ -= newTicket.price;
-    purchasedTickets_++;
-
-    ticket_ = newTicket;
-
-    return true;
-}
-
-bool Visitor::CompareVisitor(const Visitor& other) 
-{
-    return name == other.name &&
-        phone == other.phone &&
-        city_ == other.city_;
-}
-
-Visitor Visitor::CreateCopy() 
-{
-    return *this;
-}
-
-void Visitor::SaveToFile(const std::string& file_name) 
-{
-    std::ofstream file(file_name);
-
-    if (!file.is_open()) 
-    {
-        std::cout << "Cannot open file." << std::endl;
-        return;
-    }
-
-    file << id << std::endl;
-    file << name << std::endl;
-    file << phone << std::endl;
-    file << email_ << std::endl;
-    file << age_ << std::endl;
-    file << city_ << std::endl;
-    file << balance_ << std::endl;
-    file << purchasedTickets_ << std::endl;
-    file << hasDiscount_ << std::endl;
-
-    file.close();
-}
-
-void Visitor::LoadFromFile(const std::string& file_name) 
-{
-    std::ifstream file(file_name);
-
-    if (!file.is_open()) 
-    {
-        std::cout << "Cannot open file." << std::endl;
-        return;
-    }
-
-    file >> id;
-
-    file.ignore();
-    getline(file, name);
-    getline(file, phone);
-    getline(file, email_);
-
-    file >> age_;
-
-    file.ignore();
-    getline(file, city_);
-
-    file >> balance_;
-    file >> purchasedTickets_;
-    file >> hasDiscount_;
-
-    file.close();
+// Пункт 4(3) Створення статичного метода
+void Ticket::ShowTicketCount() {
+    std::cout << "Current number of Ticket objects: "
+        << ticketCount << std::endl;
 }

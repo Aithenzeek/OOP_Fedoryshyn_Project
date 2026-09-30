@@ -139,11 +139,23 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConcertManager.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="OOP_Fedoryshyn_Project.cpp" />
     <ClCompile Include="Ticket.cpp" />
+    <ClCompile Include="TicketSale.cpp" />
+    <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConcertManager.h" />
+    <ClInclude Include="Manager.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Ticket.h" />
+    <ClInclude Include="TicketSale.h" />
+    <ClInclude Include="Visitor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OOP_Fedoryshyn_Project.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
