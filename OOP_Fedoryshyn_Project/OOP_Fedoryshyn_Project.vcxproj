@@ -144,6 +144,7 @@
     <ClCompile Include="OOP_Fedoryshyn_Project.cpp" />
     <ClCompile Include="Ticket.cpp" />
     <ClCompile Include="TicketSale.cpp" />
+    <ClCompile Include="TicketUtils.cpp" />
     <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Ticket.h" />
     <ClInclude Include="TicketSale.h" />
+    <ClInclude Include="TicketUtils.h" />
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>

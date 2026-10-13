@@ -3,10 +3,10 @@
 #include "Visitor.h"
 #include "TicketSale.h"
 #include "ConcertManager.h"
-
+#include "TicketUtils.h"
 
 // Пункт 5(3) Створення функції за межами класу
-void CalculateTicketPrice(const Ticket& ticket) {
+void CalculateTicketPrice(const Ticket& ticket) {   
     double priceWithTax = ticket.price * 1.05;
 
     std::cout << "Original ticket price: "
@@ -653,6 +653,22 @@ int main()
     );
 
     compositionVisitor.ShowInfo();
+
+    // (3) Практичне завдання
+
+    std::cout << "=== TICKET UTILS ===" << std::endl;
+
+    double price = 1000.0;
+    double discount = 15.0;
+
+    if (TicketUtils::IsValidPrice(price))
+    {
+        TicketUtils::ShowPriceWithDiscount(price, discount);
+    }
+
+    std::cout << "Calculated price: "
+        << TicketUtils::CalculateDiscount(price, discount)
+        << std::endl;
 
     delete[] visitors;
 
