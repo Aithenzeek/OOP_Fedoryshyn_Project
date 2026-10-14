@@ -1,10 +1,11 @@
 #pragma once
 #include <string>
+#include "Person.h"
 
-class Manager {
+// Пункт 1(4) - Визначення ієрархії класів
+class Manager : public Person
+{
 public:
-    int id;
-    std::string name;
     std::string concert_name;
 
     // Пункт 1(3) - Визначення конструктора без параметрів
@@ -24,7 +25,7 @@ public:
     Manager(const Manager& other);
 
     // Пункт 3(3) - Визначення деструктора
-    ~Manager();
+    ~Manager() override;
 
     void ShowInfo();
     void SetConcertTime(const std::string& time);

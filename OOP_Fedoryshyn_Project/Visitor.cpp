@@ -1,53 +1,103 @@
 #include "Visitor.h"
 #include <iostream>
 #include <fstream>
+#include "Person.h"
 
 // Пункт 1(3) - Визначення конструктора без параметрів
 Visitor::Visitor()
-    : id(0),
-    name(""),
-    phone(""),
+    : Person(),
     email_(""),
     age_(0),
     city_(""),
     balance_(0),
     purchasedTickets_(0),
     hasDiscount_(false),
-    ticket_() {
+    ticket_(),
+    registrationDate_("")
+{
+    std::cout << "Visitor default constructor" << std::endl;
 }
 
 // Пункт 1(3) - Визначення конструктора з параметрами
-Visitor::Visitor(int id, const std::string& name, const std::string& phone)
-    : id(id),
-    name(name),
-    phone(phone),
+Visitor::Visitor(
+    int id,
+    const std::string& name,
+    const std::string& phone)
+    : Person(
+        id,
+        name,
+        phone,
+        "",
+        0,
+        "",
+        "",
+        true),
     email_(""),
     age_(0),
     city_(""),
-    balance_(0),
+    balance_(0.0),
     purchasedTickets_(0),
     hasDiscount_(false),
-    ticket_() {
+    ticket_(),
+    registrationDate_("")
+{
+    std::cout << "Visitor parameterized constructor" << std::endl;
+}
+ 
+// Пункт 5(4): конструктор похідного класу передає параметри
+// базовому конструктору Person і ініціалізує власні поля.
+Visitor::Visitor(
+    int id,
+    const std::string& name,
+    const std::string& phone,
+    const std::string& email,
+    int age,
+    const std::string& city,
+    const std::string& address,
+    bool isActive,
+    double balance,
+    int purchasedTickets,
+    bool hasDiscount)
+    : Person(
+        id,
+        name,
+        phone,
+        email,
+        age,
+        city,
+        address,
+        isActive),
+    email_(email),
+    age_(age),
+    city_(city),
+    balance_(balance),
+    purchasedTickets_(purchasedTickets),
+    hasDiscount_(hasDiscount),
+    ticket_()
+{
+    std::cout << "Visitor parameterized constructor"
+        << std::endl;
 }
 
-// Пункт 1(3) - Визначення конструктора без параметрів
+// Пункт 1(3) - Визначення конструктора копіювання
 Visitor::Visitor(const Visitor& other)
-    : id(other.id),
-    name(other.name),
-    phone(other.phone),
+    : Person(other),
     email_(other.email_),
     age_(other.age_),
     city_(other.city_),
     balance_(other.balance_),
     purchasedTickets_(other.purchasedTickets_),
     hasDiscount_(other.hasDiscount_),
-    ticket_(other.ticket_) {
+    ticket_(other.ticket_),
+    registrationDate_(other.registrationDate_)
+{
+    std::cout << "Visitor copy constructor" << std::endl;
 }
 
 // Пункт 3(3) - Визначення деструктора
-Visitor::~Visitor() {
-    std::cout << "Entering destruction of Visitor object. "
-        << "Visitor ID: " << id << std::endl;
+Visitor::~Visitor()
+{
+    std::cout << "Visitor destructor" << std::endl;
 }
 
 void Visitor::ShowInfo()
@@ -227,4 +277,28 @@ void Visitor::LoadFromFile(const std::string& file_name)
     file >> hasDiscount_;
 
     file.close();
+}
+
+// Пункт 6(4): доступ до членів і методів базового класу.
+void Visitor::ShowBaseClassAccess()
+{
+    std::cout << "\n--- Base class access ---" << std::endl;
+
+    // Оператор :: для доступу до членів базового класу.
+    std::cout << "Name through Person::name: "
+        << Person::name << std::endl;
+
+    std::cout << "Phone through Person::phone: "
+        << Person::phone << std::endl;
+
+    // Явний виклик методу базового класу через оператор ::.
+    Person::ShowPersonInfo();
+
+    // Методи, доступ до яких оголошено через using.
+    SetName("Updated Visitor");
+    SetPhone("+380001112233");
+
+    std::cout << "\nUpdated data through using:" << std::endl;
+    std::cout << "Name: " << name << std::endl;
+    std::cout << "Phone: " << phone << std::endl;
 }

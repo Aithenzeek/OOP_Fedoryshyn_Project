@@ -4,6 +4,10 @@
 #include "TicketSale.h"
 #include "ConcertManager.h"
 #include "TicketUtils.h"
+#include "Person.h"
+#include "InheritanceDemo.h"
+#include "PrivateManager.h"
+#include "TicketPurchase.h"
 
 // Пункт 5(3) Створення функції за межами класу
 void CalculateTicketPrice(const Ticket& ticket) {   
@@ -32,10 +36,92 @@ void CalculateTicketPrice(const Ticket* ticket) {
         << priceWithTax << std::endl;
 }
 
+// Пункт 7(4): демонстрація порядку виклику
+// конструкторів і деструкторів.
+void DemonstrateConstructorDestructorOrder()
+{
+    std::cout << "\n===== SIMPLE INHERITANCE =====" << std::endl;
+
+    {
+        std::cout << "\nCreating Visitor object:" << std::endl;
+
+        Visitor visitor(
+            80,
+            "Test Visitor",
+            "+380991234567");
+
+        std::cout << "\nVisitor object is being used." << std::endl;
+    }
+
+    // Після виходу з блоку спочатку викликається деструктор
+    // Visitor, а потім Person.
+
+
+    std::cout << "\n===== PRIVATE INHERITANCE =====" << std::endl;
+
+    {
+        std::cout << "\nCreating PrivateManager object:" << std::endl;
+
+        PrivateManager manager(
+            81,
+            "Test Manager",
+            "+380671234567",
+            "manager@example.com",
+            30,
+            "Khmelnytskyi",
+            "Main Street 1",
+            true);
+
+        manager.ShowManagerInfo();
+    }
+
+    // Після виходу з блоку викликається деструктор
+    // PrivateManager, а потім Person.
+
+
+    std::cout << "\n===== MULTIPLE INHERITANCE =====" << std::endl;
+
+    {
+        std::cout << "\nCreating TicketPurchase object:" << std::endl;
+
+        TicketPurchase purchase(
+            101,
+            1500.0,
+            "Bank card",
+            "visitor@example.com",
+            "Ticket purchased successfully.",
+            "Email",
+            1,
+            501,
+            "Rock Concert");
+
+        purchase.CompletePurchase();
+    }
+
+    // Після виходу з блоку викликається деструктор
+    // TicketPurchase, а потім деструктори його базових класів.
+}
+
 int main()
 {
-    // Пункт 6. Створення 5 об'єктів у статичній пам'яті.
-    // Пункт 7 - визначено перший з двох масивів об'єктів
+    // Пункт 5: створення Visitor через параметризований конструктор.
+    Visitor visitor(
+        20,
+        "Andrii",
+        "+380501234567",
+        "andrii@example.com",
+        20,
+        "Khmelnytskyi",
+        "Centralna Street 10",
+        true,
+        2500.0,
+        0,
+        false);
+
+    visitor.ShowInfo();
+
+    // Пункт 6(2). Створення 5 об'єктів у статичній пам'яті.
+    // Пункт 7(2) - визначено перший з двох масивів об'єктів
     static Ticket tickets[5] = {
         Ticket(1, 1200, "Concert 2026", "20.10.2026", "19:00",
             "VIP", 3, 15, "Electronic", false),
@@ -53,8 +139,8 @@ int main()
             "Economy", 10, 5, "Electronic", false)
     };
 
-    // Пункт 6. Створення 5 об'єктів у динамічній пам'яті.
-    // Пункт 7 - визначено другий з двох масивів об'єктів
+    // Пункт 6(2). Створення 5 об'єктів у динамічній пам'яті.
+    // Пункт 7(2) - визначено другий з двох масивів об'єктів
     Visitor* visitors = new Visitor[5]{
         Visitor(1, "Ivan Petrenko", "+380991234567"),
         Visitor(2, "Olena Kovalenko", "+380672345678"),
@@ -96,7 +182,7 @@ int main()
 
     std::cout << "Block ended. Destructor was called." << std::endl;
 
-    // Пункт 8. Демонстрація роботи з об'єктами в масивах.
+    // Пункт 8(2). Демонстрація роботи з об'єктами в масивах.
 
     std::cout << std::endl;
     std::cout << "=== ALL TICKETS ===" << std::endl;
@@ -136,7 +222,7 @@ int main()
     //std::cout << "=== VISITOR ===" << std::endl;
     //visitors[0].ShowInfo();
 
-    // Пункт 9. Демонстрація всіх методів класу Ticket.
+    // Пункт 9(2). Демонстрація всіх методів класу Ticket.
 
     std::cout << std::endl;
     std::cout << "=== TICKET METHODS ===" << std::endl;
@@ -174,7 +260,7 @@ int main()
     std::cout << std::endl << "Loaded ticket from file:" << std::endl;
     loaded_ticket.ShowInfo();
 
-    // Пункт 9. Демонстрація всіх методів класу Visitor.
+    // Пункт 9(2). Демонстрація всіх методів класу Visitor.
 
     std::cout << std::endl;
     std::cout << "=== VISITOR METHODS ===" << std::endl;
@@ -185,7 +271,7 @@ int main()
 
     visitors[1].AddBalance(1000, true);
 
-    // Пункт 10 - демонстрація сценарію взаємодії двох об'єктів: Відвідувач купляє квиток
+    // Пункт 10(2) - демонстрація сценарію взаємодії двох об'єктів: Відвідувач купляє квиток
     visitors[2].AddBalance(1000);
 
     if (visitors[2].BuyTicket(tickets[4])) {
@@ -223,7 +309,7 @@ int main()
     std::cout << std::endl << "Loaded visitor from file:" << std::endl;
     loaded_visitor.ShowInfo();
 
-    // Пункт 11. Вказівник на екземпляр класу.
+    // Пункт 11(2). Вказівник на екземпляр класу.
 
     Ticket* ticket_pointer = &tickets[0];
 
@@ -237,7 +323,7 @@ int main()
     std::cout << std::endl << "Ticket after changing price through pointer:" << std::endl;
     ticket_pointer->ShowInfo();
 
-    // Пункт 12. Робота з динамічною пам'яттю та сортуванням.
+    // Пункт 12(2). Робота з динамічною пам'яттю та сортуванням.
 
     std::cout << std::endl;
     std::cout << "=== DYNAMIC MEMORY AND SORTING ===" << std::endl;
@@ -275,14 +361,14 @@ int main()
     std::cout << "=== MANAGER COPY ===" << std::endl;
     manager_copy.ShowInfo();
 
-    // Пункт 2. Демонстрація задання полів даних як початкових значень констант і посилань
+    // Пункт 2(2). Демонстрація задання полів даних як початкових значень констант і посилань
     manager.ShowConstAndReference();
 
     manager.name = "Petro";
 
     manager.ShowConstAndReference();
 
-    // Пункт 4. Демонстрація статичного поля та статичного методу.
+    // Пункт 4(2). Демонстрація статичного поля та статичного методу.
 
     std::cout << "=== STATIC TICKET MEMBER ===" << std::endl;
 
@@ -654,7 +740,7 @@ int main()
 
     compositionVisitor.ShowInfo();
 
-    // (3) Практичне завдання
+    // (4) Практичне завдання
 
     std::cout << "=== TICKET UTILS ===" << std::endl;
 
@@ -668,6 +754,182 @@ int main()
 
     std::cout << "Calculated price: "
         << TicketUtils::CalculateDiscount(price, discount)
+        << std::endl;
+
+    // Четверта лабораторна
+
+    // Пункт 2(4) Демонстрація керування доступу до членів базового класу
+
+    std::cout << "\n=== Forth lab ===\n" << std::endl;
+
+    PublicInheritanceDemo publicObject(
+        1, "Ivan", "+380111111111", "ivan@example.com",
+        20, "Lviv", "Main Street 1", true);
+
+    ProtectedInheritanceDemo protectedObject(
+        2, "Petro", "+380222222222", "petro@example.com",
+        25, "Kyiv", "Central Street 2", true);
+
+    PrivateInheritanceDemo privateObject(
+        3, "Olena", "+380333333333", "olena@example.com",
+        22, "Odesa", "Sea Street 3", true);
+
+    publicObject.ShowAccess();
+    protectedObject.ShowAccess();
+    privateObject.ShowAccess();
+
+    // Пункт 3(4): створення об'єкта через конструктор.
+    PrivateManager privateManager(
+        10,
+        "Andrii",
+        "+380501234567",
+        "andrii@example.com",
+        30,
+        "Khmelnytskyi",
+        "Centralna Street 10",
+        true);
+
+    // Використання методів похідного класу.
+    privateManager.ShowManagerInfo();
+    privateManager.ChangeManagerName("Andrii Kovalenko");
+    privateManager.ShowManagerInfo();
+
+    // Пункт 4(4): створення об'єкта класу з множинним успадкуванням.
+    TicketPurchase purchase(
+        101,
+        1500.0,
+        "Bank card",
+        "visitor@example.com",
+        "Your concert ticket has been purchased.",
+        "Email",
+        1,
+        501,
+        "Rock Concert");
+
+    // Використання методів усіх трьох класів.
+    purchase.CompletePurchase();
+
+    // Пункт 5(4): створення Visitor через параметризований конструктор.
+    Visitor fullVisitor(
+        20,
+        "Andrii",
+        "+380501234567",
+        "andrii@example.com",
+        20,
+        "Khmelnytskyi",
+        "Centralna Street 10",
+        true,
+        2500.0,
+        0,
+        false);
+
+    fullVisitor.ShowInfo();
+
+    // Пункт 6(4) Демонстрація
+    Visitor accessVisitor(
+        70,
+        "Access Test",
+        "+380991234567"
+    );
+
+    accessVisitor.ShowBaseClassAccess();
+
+    // Пункт 7(4) Демонстрація конструкторів і деструкторів
+    DemonstrateConstructorDestructorOrder();
+
+    // Пункт 8(4) Демонстрація деструкторів
+
+    std::cout << "\n===== Demonstration of destructors =====" << std::endl;
+
+    {
+        std::cout << "\nEntering first block" << std::endl;
+
+        Visitor visitor(80, "Test Visitor", "+380991234567");
+
+        std::cout << "Visitor object created inside the block" << std::endl;
+    }
+
+    std::cout << "Exited first block" << std::endl;
+
+    {
+        std::cout << "\nEntering second block" << std::endl;
+
+        TicketPurchase purchase(
+            1,
+            500.0,
+            "Card",
+            "test@example.com",
+            "Your ticket has been purchased.",
+            "Email",
+            100,
+            200,
+            "Concert 2026"
+        );
+
+        std::cout << "TicketPurchase object created inside the block" << std::endl;
+    }
+
+    std::cout << "Exited second block" << std::endl;
+
+    // Пункт 9(4): повний сценарій функціонування системи продажу квитків.
+
+    std::cout << "\n========== CONCERT TICKET SYSTEM ==========" << std::endl;
+
+    // 1. Інформація про концерт і менеджера.
+    std::cout << "\n--- Concert manager ---" << std::endl;
+    manager.ShowInfo();
+
+    // 2. Менеджер концертів керує квитком.
+    ConcertManager systemConcertManager(manager);
+
+    systemConcertManager.AddTicket(tickets[0]);
+
+    std::cout << "\n--- Available concert ticket ---" << std::endl;
+    systemConcertManager.ShowTicket();
+
+    // 3. Відвідувач переглядає інформацію.
+    std::cout << "\n--- Visitor ---" << std::endl;
+    visitors[0].ShowInfo();
+
+    // 4. Відвідувач поповнює баланс.
+    std::cout << "\n--- Adding balance ---" << std::endl;
+    visitors[0].AddBalance(1500.0);
+
+    // 5. Відвідувач купує квиток.
+    std::cout << "\n--- Buying ticket ---" << std::endl;
+
+    if (visitors[0].BuyTicket(tickets[0])) {
+        std::cout << "Ticket purchased successfully." << std::endl;
+
+        // 6. Створюється платіж і надсилається повідомлення.
+        std::cout << "\n--- Payment and notification ---" << std::endl;
+
+        TicketPurchase systemPurchase(
+            201,
+            tickets[0].price,
+            "Bank card",
+            "visitor@example.com",
+            "Your concert ticket has been purchased successfully.",
+            "Email",
+            1001,
+            tickets[0].id,
+            tickets[0].concertName
+        );
+
+        systemPurchase.CompletePurchase();
+    }
+    else {
+        std::cout << "Ticket purchase failed." << std::endl;
+    }
+
+    // 7. Перевірка стану відвідувача та квитка.
+    std::cout << "\n--- Final visitor information ---" << std::endl;
+    visitors[0].ShowInfo();
+
+    std::cout << "\n--- Final ticket information ---" << std::endl;
+    tickets[0].ShowInfo();
+
+    std::cout << "\n========== SYSTEM DEMONSTRATION COMPLETED =========="
         << std::endl;
 
     delete[] visitors;
