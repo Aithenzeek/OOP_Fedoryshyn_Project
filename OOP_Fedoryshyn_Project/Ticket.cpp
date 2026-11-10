@@ -21,7 +21,7 @@ Ticket::Ticket()
     isSold_(false) 
 {
     ticketCount++;
-    std::cout << "Ticket default constructor" << std::endl;
+    //std::cout << "Ticket default constructor" << std::endl;
 }
 
 // Пункт 1(3) - Визначення конструктора з параметрами
@@ -41,7 +41,7 @@ Ticket::Ticket(int id, double price, const std::string& concert_name,
     isSold_(is_sold) 
 {
     ticketCount++;
-    std::cout << "Ticket parameterized constructor" << std::endl;
+    //std::cout << "Ticket parameterized constructor" << std::endl;
 }
 
 // Пункт 1(3) - Визначення конструктора копіювання
@@ -58,7 +58,7 @@ Ticket::Ticket(const Ticket& other)
     isSold_(other.isSold_) 
 {
     ticketCount++;
-    std::cout << "Ticket copy constructor" << std::endl;
+    //std::cout << "Ticket copy constructor" << std::endl;
 }
 
 // Пункт 3(3) - Визначення деструктора
@@ -66,8 +66,8 @@ Ticket::~Ticket()
 {
     ticketCount--;
 
-    std::cout << "Ticket destructor. ID: "
-        << id << std::endl;
+    /*std::cout << "Ticket destructor. ID: "
+        << id << std::endl;*/
 }
 
 void Ticket::ShowInfo() const

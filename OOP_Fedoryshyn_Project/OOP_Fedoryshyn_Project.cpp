@@ -21,6 +21,7 @@
 #include <iostream>
 #include <limits>
 #include "TemplateContainer.h"
+#include "STLContainers.h"
 
 // Пункт 5(3) Створення функції за межами класу
 void CalculateTicketPrice(const Ticket& ticket) {   
@@ -1747,6 +1748,22 @@ int main(int argc, char* argv[])
     std::cout << "\nStored Ticket:" << std::endl;
 
     customContainer.GetAdditional().ShowInfo();
+
+    // Сьома лабораторна
+
+    std::cout << "\n=== Seventh lab ===\n" << std::endl;
+
+    // Пункт 1(7) — демонстрація контейнерів STL
+    RunSTLContainersDemo();
+
+    // Пункт 2(7) — демонстрація ітераторів STL
+    RunSTLIteratorsDemo();
+
+    // Пункт 3(7) — демонстрація алгоритмів STL
+    RunSTLAlgorithmsDemo();
+
+    // Пункт 4(7) — демонстрація функціональних об'єктів STL
+    RunSTLFunctorsDemo();
 
     delete[] visitors;
 

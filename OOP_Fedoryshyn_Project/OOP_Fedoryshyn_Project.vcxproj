@@ -151,6 +151,7 @@
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="StaffMember.cpp" />
     <ClCompile Include="StandardTicket.cpp" />
+    <ClCompile Include="STLContainers.cpp" />
     <ClCompile Include="StudentTicket.cpp" />
     <ClCompile Include="TemplateContainer.cpp" />
     <ClCompile Include="Ticket.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Service.h" />
     <ClInclude Include="StaffMember.h" />
     <ClInclude Include="StandardTicket.h" />
+    <ClInclude Include="STLContainers.h" />
     <ClInclude Include="StudentTicket.h" />
     <ClInclude Include="TemplateContainer.h" />
     <ClInclude Include="Ticket.h" />
