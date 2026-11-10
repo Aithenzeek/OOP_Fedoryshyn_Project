@@ -35,9 +35,38 @@ public:
     // Пункт 3(3) - Визначення деструктора
     ~Ticket();
 
-    void ShowInfo();
+    void ShowInfo() const;
     void ChangePrice(double newPrice);
     void ChangePrice(double newPrice, bool discount);
+
+    // Пункт 1(6) — Перевантаження префіксних та постфіксних операторів
+    Ticket& operator++();
+    Ticket operator++(int);
+
+    Ticket& operator--();
+    Ticket operator--(int);
+
+    // Пункт 2(6) — перевантаження бінарних операторів
+    Ticket operator+(const Ticket& other) const;
+    Ticket operator-(const Ticket& other) const;
+
+    // Пункт 3(6) — перевантаження операторів
+    Ticket operator*(double multiplier) const;
+    Ticket& operator=(const Ticket& other);
+    Ticket& operator+=(const Ticket& other);
+    Ticket& operator-=(const Ticket& other);
+    Ticket& operator*=(double multiplier);
+
+    char& operator[](std::size_t index);
+    const char& operator[](std::size_t index) const;
+
+    // Пункт 4(6) — шаблонна функція для зміни ціни квитка
+    template <typename T>
+    void ApplyPriceMultiplier(T multiplier)
+    {
+        price *= static_cast<double>(multiplier);
+    }
+
     bool Sell();
     bool CancelSale();
     bool CompareTicket(const Ticket& other);

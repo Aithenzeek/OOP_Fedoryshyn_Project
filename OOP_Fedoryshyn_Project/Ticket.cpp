@@ -70,7 +70,7 @@ Ticket::~Ticket()
         << id << std::endl;
 }
 
-void Ticket::ShowInfo() 
+void Ticket::ShowInfo() const
 {
     std::cout << "ID: " << id << std::endl;
     std::cout << "Concert: " << concertName << std::endl;
@@ -104,6 +104,146 @@ void Ticket::ChangePrice(double new_price, bool apply_discount)
     {
         price *= 0.9;
     }
+}
+
+// Пункт 1(6) — префіксний оператор ++
+Ticket& Ticket::operator++()
+{
+    ++price;
+    return *this;
+}
+
+// Пункт 1(6) — постфіксний оператор ++
+Ticket Ticket::operator++(int)
+{
+    Ticket oldTicket(*this);
+    price++;
+    return oldTicket;
+}
+
+// Пункт 1(6) — префіксний оператор --
+Ticket& Ticket::operator--()
+{
+    if (price >= 1)
+    {
+        --price;
+    }
+
+    return *this;
+}
+
+// Пункт 1(6) — постфіксний оператор --
+Ticket Ticket::operator--(int)
+{
+    Ticket oldTicket(*this);
+
+    if (price >= 1)
+    {
+        price--;
+    }
+
+    return oldTicket;
+}
+
+// Пункт 2(6) — перевантаження оператора +
+Ticket Ticket::operator+(const Ticket& other) const
+{
+    Ticket result(*this);
+    result.price = price + other.price;
+
+    return result;
+}
+
+// Пункт 2(6) — перевантаження оператора -
+Ticket Ticket::operator-(const Ticket& other) const
+{
+    Ticket result(*this);
+    result.price = price - other.price;
+
+    if (result.price < 0)
+    {
+        result.price = 0;
+    }
+
+    return result;
+}
+
+// Пункт 3(6) — оператор множення
+Ticket Ticket::operator*(double multiplier) const
+{
+    Ticket result(*this);
+    result.price *= multiplier;
+
+    return result;
+}
+
+// Пункт 3(6) — оператор присвоєння
+Ticket& Ticket::operator=(const Ticket& other)
+{
+    if (this != &other)
+    {
+        id = other.id;
+        price = other.price;
+        concertName = other.concertName;
+        date_ = other.date_;
+        time_ = other.time_;
+        sector_ = other.sector_;
+        row_ = other.row_;
+        seat_ = other.seat_;
+        ticketType_ = other.ticketType_;
+        isSold_ = other.isSold_;
+    }
+
+    return *this;
+}
+
+// Пункт 3(6) — оператор +=
+Ticket& Ticket::operator+=(const Ticket& other)
+{
+    price += other.price;
+    return *this;
+}
+
+// Пункт 3(6) — оператор -=
+Ticket& Ticket::operator-=(const Ticket& other)
+{
+    price -= other.price;
+
+    if (price < 0)
+    {
+        price = 0;
+    }
+
+    return *this;
+}
+
+// Пункт 3(6) — оператор *=
+Ticket& Ticket::operator*=(double multiplier)
+{
+    price *= multiplier;
+    return *this;
+}
+
+// Пункт 3(6) — оператор [] для зміни символу назви концерту
+char& Ticket::operator[](std::size_t index)
+{
+    if (index >= concertName.size())
+    {
+        throw std::out_of_range("Concert name index is out of range.");
+    }
+
+    return concertName[index];
+}
+
+// Пункт 3(6) — константний оператор []
+const char& Ticket::operator[](std::size_t index) const
+{
+    if (index >= concertName.size())
+    {
+        throw std::out_of_range("Concert name index is out of range.");
+    }
+
+    return concertName[index];
 }
 
 bool Ticket::Sell() 

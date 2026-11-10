@@ -20,6 +20,7 @@
 #include "TicketManager.h"
 #include <iostream>
 #include <limits>
+#include "TemplateContainer.h"
 
 // Пункт 5(3) Створення функції за межами класу
 void CalculateTicketPrice(const Ticket& ticket) {   
@@ -1547,6 +1548,205 @@ int main(int argc, char* argv[])
 
     // Пункт 8(5) - Запуск меню
     RunTicketMenu();
+
+
+    // Шоста лабораторна
+
+    std::cout << "\n=== Sixht lab ===\n" << std::endl;
+
+    // ЛР №6, пункт 1 — демонстрація унарних операторів
+
+    std::cout << "\n=== Unary operators ===" << std::endl;
+
+    Ticket operatorTicket(
+        100,
+        1000,
+        "Rock Concert",
+        "20.12.2026",
+        "19:00",
+        "VIP",
+        1,
+        10,
+        "VIP",
+        false
+    );
+
+    std::cout << "Initial price: " << operatorTicket.price << std::endl;
+
+    ++operatorTicket;
+    std::cout << "After prefix ++: " << operatorTicket.price << std::endl;
+
+    operatorTicket++;
+    std::cout << "After postfix ++: " << operatorTicket.price << std::endl;
+
+    --operatorTicket;
+    std::cout << "After prefix --: " << operatorTicket.price << std::endl;
+
+    operatorTicket--;
+    std::cout << "After postfix --: " << operatorTicket.price << std::endl;
+
+    // Пункт 2(6) — демонстрація бінарних операторів
+
+    std::cout << "\n=== Binary operators ===" << std::endl;
+
+    Ticket firstTicket(
+        101, 1500, "Rock Concert",
+        "20.12.2026", "19:00", "VIP",
+        1, 10, "VIP", false
+    );
+
+    Ticket secondTicket(
+        102, 500, "Rock Concert",
+        "20.12.2026", "19:00", "Standard",
+        2, 15, "Standard", false
+    );
+
+    Ticket sumTicket = firstTicket + secondTicket;
+    Ticket differenceTicket = firstTicket - secondTicket;
+
+    std::cout << "First ticket price: "
+        << firstTicket.price << std::endl;
+
+    std::cout << "Second ticket price: "
+        << secondTicket.price << std::endl;
+
+    std::cout << "Price after addition: "
+        << sumTicket.price << std::endl;
+
+    std::cout << "Price after subtraction: "
+        << differenceTicket.price << std::endl;
+
+    // Пункт 3(6) — демонстрація операторів *, =, +=, -=, *=, []
+
+    std::cout << "\n=== Other overloaded operators ===" << std::endl;
+
+    Ticket thirdTicket(
+        103, 1000, "Rock Concert",
+        "20.12.2026", "19:00", "VIP",
+        1, 10, "VIP", false
+    );
+
+    Ticket fourthTicket(
+        104, 500, "Rock Concert",
+        "20.12.2026", "19:00", "Standard",
+        2, 15, "Standard", false
+    );
+
+    // Оператор *
+    Ticket multipliedTicket = thirdTicket * 2;
+    std::cout << "After * 2: "
+        << multipliedTicket.price << std::endl;
+
+    // Оператор =
+    thirdTicket = fourthTicket;
+    std::cout << "After assignment: "
+        << thirdTicket.price << std::endl;
+
+    // Оператор +=
+    thirdTicket += fourthTicket;
+    std::cout << "After +=: "
+        << thirdTicket.price << std::endl;
+
+    // Оператор -=
+    thirdTicket -= fourthTicket;
+    std::cout << "After -=: "
+        << thirdTicket.price << std::endl;
+
+    // Оператор *=
+    thirdTicket *= 3;
+    std::cout << "After *= 3: "
+        << thirdTicket.price << std::endl;
+
+    // Оператор []
+    std::cout << "First character: "
+        << thirdTicket[0] << std::endl;
+
+    thirdTicket[0] = 'M';
+
+    std::cout << "Concert name after changing first character: "
+        << thirdTicket.concertName << std::endl;
+
+    // Пункт 4(6) — демонстрація шаблонної функції
+
+    std::cout << "\n=== Template function ===" << std::endl;
+
+    Ticket templateTicket(
+        105, 1000, "Rock Concert",
+        "20.12.2026", "19:00", "VIP",
+        1, 10, "VIP", false
+    );
+
+    std::cout << "Initial price: "
+        << templateTicket.price << std::endl;
+
+    templateTicket.ApplyPriceMultiplier(2);
+
+    std::cout << "After integer multiplier: "
+        << templateTicket.price << std::endl;
+
+    templateTicket.ApplyPriceMultiplier(1.5);
+
+    std::cout << "After double multiplier: "
+        << templateTicket.price << std::endl;
+
+    // Пункт 5(6) — демонстрація шаблону класу
+
+    std::cout << "\n=== Template class ===" << std::endl;
+
+    TemplateContainer<int, std::string, double, int, std::string>
+        ticketContainer(
+            1,
+            "Rock Concert",
+            1500.0,
+            2,
+            "VIP tickets"
+        );
+
+    ticketContainer.ShowInfo();
+
+    ticketContainer.SetPrice(2000.0);
+    ticketContainer.SetQuantity(3);
+
+    std::cout << "\nAfter changing data:" << std::endl;
+
+    ticketContainer.ShowInfo();
+
+    // Пункт 6(6) — використання користувацького класу як параметра шаблону
+
+    std::cout << "\n=== Template with user-defined class ===" << std::endl;
+
+    Ticket customTicket(
+        201,
+        1200.0,
+        "Rock Concert",
+        "20.12.2026",
+        "19:00",
+        "VIP",
+        1,
+        15,
+        "VIP",
+        false
+    );
+
+    TemplateContainer<int, std::string, double, int, Ticket>
+        customContainer(
+            1,
+            "Ticket collection",
+            1200.0,
+            1,
+            customTicket
+        );
+
+    std::cout << "Container information:" << std::endl;
+
+    std::cout << "ID: " << customContainer.GetId() << std::endl;
+    std::cout << "Name: " << customContainer.GetName() << std::endl;
+    std::cout << "Price: " << customContainer.GetPrice() << std::endl;
+    std::cout << "Quantity: " << customContainer.GetQuantity() << std::endl;
+
+    std::cout << "\nStored Ticket:" << std::endl;
+
+    customContainer.GetAdditional().ShowInfo();
 
     delete[] visitors;
 

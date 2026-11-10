@@ -152,6 +152,7 @@
     <ClCompile Include="StaffMember.cpp" />
     <ClCompile Include="StandardTicket.cpp" />
     <ClCompile Include="StudentTicket.cpp" />
+    <ClCompile Include="TemplateContainer.cpp" />
     <ClCompile Include="Ticket.cpp" />
     <ClCompile Include="TicketManager.cpp" />
     <ClCompile Include="TicketPurchase.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="StaffMember.h" />
     <ClInclude Include="StandardTicket.h" />
     <ClInclude Include="StudentTicket.h" />
+    <ClInclude Include="TemplateContainer.h" />
     <ClInclude Include="Ticket.h" />
     <ClInclude Include="TicketManager.h" />
     <ClInclude Include="TicketPurchase.h" />
