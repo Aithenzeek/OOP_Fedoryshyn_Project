@@ -129,3 +129,8 @@ void Manager::ShowConstAndReference() {
 Manager Manager::CreateCopy() {
     return *this;
 }
+
+std::string Manager::GetRoleDescription() const
+{
+    return "Concert manager";
+}

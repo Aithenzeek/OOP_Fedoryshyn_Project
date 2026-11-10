@@ -16,7 +16,9 @@ public:
         const std::string& message,
         const std::string& notificationType);
 
-    ~Notification();
+    // Пункт 3(5) Віртуальний деструктор
+    virtual ~Notification();
 
-    void SendNotification();
+    // Пункт 4(5) Віртуальна функція
+    virtual void SendNotification();
 };

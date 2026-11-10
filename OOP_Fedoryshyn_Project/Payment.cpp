@@ -44,3 +44,8 @@ void Payment::ProcessPayment()
         std::cout << "Invalid payment amount." << std::endl;
     }
 }
+
+std::string Payment::GetRoleDescription() const
+{
+    return "Payment";
+}

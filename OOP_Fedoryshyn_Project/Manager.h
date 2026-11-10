@@ -3,7 +3,8 @@
 #include "Person.h"
 
 // Пункт 1(4) - Визначення ієрархії класів
-class Manager : public Person
+// Пункт 2(5) - Віртуальне наслідування
+class Manager : virtual public Person
 {
 public:
     std::string concert_name;
@@ -35,6 +36,9 @@ public:
     void ShowConstAndReference();
     double GetRefundPercent();
     Manager CreateCopy();
+
+    // Пункт 4(5) Перевизначення батьківської віртуальної функції
+    std::string GetRoleDescription() const override;
 
 private:
     std::string date_;

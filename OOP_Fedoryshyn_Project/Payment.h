@@ -15,7 +15,11 @@ public:
         double amount,
         const std::string& paymentMethod);
 
-    ~Payment();
+    // Пункт 3(5) Віртуальний деструктор
+    virtual ~Payment();
 
-    void ProcessPayment();
+    // Пункт 4(5) Віртуальна функція
+    virtual void ProcessPayment();
+
+    virtual std::string GetRoleDescription() const;
 };

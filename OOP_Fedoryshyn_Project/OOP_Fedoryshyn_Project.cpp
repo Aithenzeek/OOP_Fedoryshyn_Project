@@ -8,6 +8,18 @@
 #include "InheritanceDemo.h"
 #include "PrivateManager.h"
 #include "TicketPurchase.h"
+#include "StandardTicket.h"
+#include "VipTicket.h"
+#include "StudentTicket.h"
+#include "StaffMember.h"
+#include "DestructorDemo.h"
+#include <new>
+#include <stdexcept>
+#include <fstream>
+#include "Service.h"
+#include "TicketManager.h"
+#include <iostream>
+#include <limits>
 
 // Пункт 5(3) Створення функції за межами класу
 void CalculateTicketPrice(const Ticket& ticket) {   
@@ -102,7 +114,489 @@ void DemonstrateConstructorDestructorOrder()
     // TicketPurchase, а потім деструктори його базових класів.
 }
 
-int main()
+// Пункт 5(5) - Функція для статичних об'єктів
+void CreateStaticTickets()
+{
+    Ticket tickets[5] = {
+        Ticket(1, 500, "Rock Concert", "2026-12-01", "18:00",
+            "A", 1, 1, "Standard", false),
+
+        Ticket(2, 700, "Rock Concert", "2026-12-01", "18:00",
+            "A", 1, 2, "Standard", false),
+
+        Ticket(3, 1000, "Rock Concert", "2026-12-01", "18:00",
+            "B", 2, 1, "VIP", false),
+
+        Ticket(4, 300, "Rock Concert", "2026-12-01", "18:00",
+            "C", 3, 1, "Student", false),
+
+        Ticket(5, 300, "Rock Concert", "2026-12-01", "18:00",
+            "C", 3, 2, "Student", false)
+    };
+
+    std::cout << "\nStatic tickets:\n";
+
+    for (int i = 0; i < 5; i++)
+    {
+        tickets[i].ShowInfo();
+    }
+}
+
+// Пункт 5(5) - Функція для динамічних об'єктів
+void CreateDynamicTickets()
+{
+    Ticket* tickets = nullptr;
+
+    try
+    {
+        tickets = new Ticket[5]{
+            Ticket(6, 500, "Rock Concert", "2026-12-01", "18:00",
+                "A", 1, 3, "Standard", false),
+
+            Ticket(7, 700, "Rock Concert", "2026-12-01", "18:00",
+                "A", 1, 4, "Standard", false),
+
+            Ticket(8, 1000, "Rock Concert", "2026-12-01", "18:00",
+                "B", 2, 2, "VIP", false),
+
+            Ticket(9, 300, "Rock Concert", "2026-12-01", "18:00",
+                "C", 3, 3, "Student", false),
+
+            Ticket(10, 300, "Rock Concert", "2026-12-01", "18:00",
+                "C", 3, 4, "Student", false)
+        };
+
+        std::cout << "\nDynamic tickets:\n";
+
+        for (int i = 0; i < 5; i++)
+        {
+            tickets[i].ShowInfo();
+        }
+    }
+    catch (const std::bad_alloc& exception)
+    {
+        std::cerr << "Memory allocation error: "
+            << exception.what() << std::endl;
+    }
+
+    delete[] tickets;
+}
+
+double ValidateTicketPrice(double price)
+{
+    if (price <= 0)
+    {
+        throw std::invalid_argument("Ticket price must be greater than zero.");
+    }
+
+    return price;
+}
+
+// Пункт 5(5) - Демонстрація try, catch і throw
+void TestExceptions()
+{
+    try
+    {
+        double price = ValidateTicketPrice(0);
+        std::cout << "Ticket price: " << price << std::endl;
+    }
+    catch (const std::invalid_argument& exception)
+    {
+        std::cerr << "Error: " << exception.what() << std::endl;
+    }
+}   
+
+void ValidatePurchase(int ticketId, double balance, double ticketPrice)
+{
+    if (ticketId <= 0)
+    {
+        throw std::invalid_argument("Invalid ticket ID.");
+    }
+
+    if (balance < ticketPrice)
+    {
+        throw std::runtime_error("Not enough money to buy this ticket.");
+    }
+
+    std::cout << "Purchase validation successful.\n";
+}
+
+void TestPurchaseException()
+{
+    try
+    {
+        ValidatePurchase(1, 200, 500);
+    }
+    catch (const std::exception& exception)
+    {
+        std::cerr << "Purchase error: " << exception.what() << std::endl;
+    }
+}
+
+void ValidateTicketFile(const std::string& fileName)
+{
+    std::ifstream file(fileName);
+
+    if (!file.is_open())
+    {
+        throw std::runtime_error("Cannot open ticket data file.");
+    }
+
+    std::cout << "Ticket file opened successfully.\n";
+}
+
+void TestFileException()
+{
+    try
+    {
+        ValidateTicketFile("missing_tickets.txt");
+    }
+    catch (const std::exception& exception)
+    {
+        std::cerr << "File error: " << exception.what() << std::endl;
+    }
+}
+
+// Пункт 6(5) Метод для перевірки статичних об'єктів
+void TestStaticService()
+{
+    Ticket tickets[5] = {
+        Ticket(1, 300, "Rock Concert", "2026-12-01", "18:00",
+            "A", 1, 1, "Standard", false),
+
+        Ticket(2, 500, "Rock Concert", "2026-12-01", "18:00",
+            "A", 1, 2, "Standard", false),
+
+        Ticket(3, 1000, "Rock Concert", "2026-12-01", "18:00",
+            "B", 2, 1, "VIP", false),
+
+        Ticket(4, 250, "Rock Concert", "2026-12-01", "18:00",
+            "C", 3, 1, "Student", false),
+
+        Ticket(5, 700, "Rock Concert", "2026-12-01", "18:00",
+            "A", 2, 2, "Standard", false)
+    };
+
+    int count = 5;
+
+    Service_Static(tickets, count, 500);
+
+    std::cout << "\nRemaining static tickets:\n";
+
+    for (int i = 0; i < count; i++)
+    {
+        tickets[i].ShowInfo();
+    }
+}
+
+// Пункт 6(5) Метод для перевірки динамічних об'єктів
+void TestDynamicService()
+{
+    int count = 5;
+
+    Ticket* tickets = nullptr;
+
+    try
+    {
+        tickets = new Ticket[5]{
+            Ticket(6, 300, "Rock Concert", "2026-12-01", "18:00",
+                "A", 1, 3, "Standard", false),
+
+            Ticket(7, 500, "Rock Concert", "2026-12-01", "18:00",
+                "A", 1, 4, "Standard", false),
+
+            Ticket(8, 1000, "Rock Concert", "2026-12-01", "18:00",
+                "B", 2, 2, "VIP", false),
+
+            Ticket(9, 250, "Rock Concert", "2026-12-01", "18:00",
+                "C", 3, 3, "Student", false),
+
+            Ticket(10, 700, "Rock Concert", "2026-12-01", "18:00",
+                "A", 2, 3, "Standard", false)
+        };
+
+        Service_Dinamic(tickets, count, 500);
+
+        std::cout << "\nRemaining dynamic tickets:\n";
+
+        for (int i = 0; i < count; i++)
+        {
+            tickets[i].ShowInfo();
+        }
+    }
+    catch (const std::bad_alloc& exception)
+    {
+        std::cerr << "Error: " << exception.what() << '\n';
+    }
+
+    delete[] tickets;
+}
+
+// Пункт 7(5) - Функція для перевірки роботи Service
+void TestFileService(const std::string& fileName)
+{
+    try
+    {
+        Ticket ticket(
+            100,
+            1500,
+            "Rock Concert",
+            "2026-12-01",
+            "18:00",
+            "VIP",
+            1,
+            10,
+            "VIP",
+            false
+        );
+
+        // Записуємо об'єкт у файл.
+        Service(ticket, fileName, true);
+
+        std::cout << "Ticket successfully saved.\n";
+
+        // Створюємо інший об'єкт для читання.
+        Ticket loadedTicket;
+
+        Service(loadedTicket, fileName, false);
+
+        std::cout << "\nLoaded ticket:\n";
+        loadedTicket.ShowInfo();
+    }
+    catch (const std::exception& exception)
+    {
+        std::cerr << "File service error: "
+            << exception.what() << '\n';
+    }
+}
+
+
+// Пункт 8(5) - Функція для запуску меню
+void RunTicketMenu()
+{
+    TicketManager manager;
+    int choice = 0;
+
+    do
+    {
+        std::cout << "\n========== TICKET SYSTEM ==========\n";
+        std::cout << "1. Create ticket\n";
+        std::cout << "2. Show all tickets\n";
+        std::cout << "3. Remove ticket\n";
+        std::cout << "4. Destroy all tickets\n";
+        std::cout << "0. Exit\n";
+        std::cout << "Choose an option: ";
+
+        std::cin >> choice;
+
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(
+                std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::cout << "Invalid input.\n";
+            continue;
+        }
+
+        try
+        {
+            switch (choice)
+            {
+            case 1:
+            {
+                int id;
+                double price;
+                std::string concertName;
+
+                std::cout << "Ticket ID: ";
+                std::cin >> id;
+
+                std::cout << "Ticket price: ";
+                std::cin >> price;
+
+                std::cin.ignore(
+                    std::numeric_limits<std::streamsize>::max(), '\n');
+
+                std::cout << "Concert name: ";
+                std::getline(std::cin, concertName);
+
+                Ticket ticket(
+                    id, price, concertName,
+                    "2026-12-01", "18:00",
+                    "A", 1, id, "Standard", false
+                );
+
+                manager.AddTicket(ticket);
+
+                std::cout << "Ticket created successfully.\n";
+                break;
+            }
+
+            case 2:
+                manager.ShowTickets();
+                break;
+
+            case 3:
+            {
+                int id;
+
+                std::cout << "Enter ticket ID: ";
+                std::cin >> id;
+
+                manager.RemoveTicket(id);
+
+                std::cout << "Ticket removed successfully.\n";
+                break;
+            }
+
+            case 4:
+                manager.ClearTickets();
+
+                std::cout << "All tickets destroyed.\n";
+                break;
+
+            case 0:
+                std::cout << "Exiting ticket system.\n";
+                break;
+
+            default:
+                std::cout << "Unknown menu option.\n";
+                break;
+            }
+        }
+        catch (const std::exception& exception)
+        {
+            std::cerr << "Error: " << exception.what() << '\n';
+        }
+
+    } while (choice != 0);
+}
+
+// Пункт 9(5) - Поліморфний виклик методу через вказівник базового класу
+void TestPolymorphismByPointer()
+{
+    std::cout << "\n=== Polymorphism using pointers ===\n";
+
+    Person* person = new Visitor();
+    Person* manager = new Manager();
+
+    std::cout << person->GetRoleDescription() << '\n';
+    std::cout << manager->GetRoleDescription() << '\n';
+
+    delete person;
+    delete manager;
+}
+
+// Пункт 9(5) - Поліморфний виклик методу через посилання базового класу
+void PrintPersonRole(const Person& person)
+{
+    std::cout << person.GetRoleDescription() << '\n';
+}
+
+void TestPolymorphismByReference()
+{
+    std::cout << "\n=== Polymorphism using references ===\n";
+
+    Visitor visitor;
+    Manager manager;
+
+    PrintPersonRole(visitor);
+    PrintPersonRole(manager);
+}
+
+// Пункт 9(5) - Поліморфний виклик методу через масив вказівників
+void TestPolymorphismByArray()
+{
+    std::cout << "\n=== Polymorphism using array ===\n";
+
+    Person* people[3];
+
+    people[0] = new Person();
+    people[1] = new Visitor();
+    people[2] = new Manager();
+
+    for (int i = 0; i < 3; i++)
+    {
+        std::cout << people[i]->GetRoleDescription() << '\n';
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        delete people[i];
+    }
+}
+
+// Пункт 9(5) - Поліморфізм для типів квитків
+void TestTicketTypePolymorphism()
+{
+    std::cout << "\n=== Ticket type polymorphism ===\n";
+
+    TicketType* tickets[3];
+
+    tickets[0] = new StandardTicket(1, "Rock Concert", 1000);
+    tickets[1] = new VipTicket(2, "Rock Concert", 1000, 500);
+    tickets[2] = new StudentTicket(3, "Rock Concert", 1000, 20);
+
+    for (int i = 0; i < 3; i++)
+    {
+        tickets[i]->ShowDetails();
+
+        std::cout << "Final price: "
+            << tickets[i]->CalculatePrice()
+            << " UAH\n\n";
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        delete tickets[i];
+    }
+}
+
+// Пункт 10(5) Перевірка виклику методів
+void TestBinding()
+{
+    std::cout << "\n=== Static and Dynamic Binding ===\n";
+
+    Visitor visitor;
+
+    Person* personPointer = &visitor;
+
+    // Early binding: викликається метод за типом вказівника.
+    personPointer->ShowBindingType();
+
+    // Late binding: викликається метод фактичного типу об'єкта.
+    personPointer->GetRoleDescription();
+
+    std::cout << personPointer->GetRoleDescription() << '\n';
+
+    // Виклик через об'єкт похідного класу.
+    visitor.ShowBindingType();
+}
+
+// Пункт 11(5) Функція обходу віртуальних функцій
+void TestVirtualFunctionBypass()
+{
+    std::cout << "\n=== Virtual Function Bypass ===\n";
+
+    Visitor visitor;
+
+    // Звичайний поліморфний виклик.
+    Person* person = &visitor;
+
+    std::cout << "Normal virtual call: "
+        << person->GetRoleDescription() << '\n';
+
+    // Примусовий виклик реалізації базового класу.
+    std::cout << "Base class call: "
+        << visitor.Person::GetRoleDescription() << '\n';
+
+    // Прямий виклик реалізації похідного класу.
+    std::cout << "Derived class call: "
+        << visitor.Visitor::GetRoleDescription() << '\n';
+}
+
+int main(int argc, char* argv[])
 {
     // Пункт 5: створення Visitor через параметризований конструктор.
     Visitor visitor(
@@ -794,7 +1288,7 @@ int main()
     privateManager.ChangeManagerName("Andrii Kovalenko");
     privateManager.ShowManagerInfo();
 
-    // Пункт 4(4): створення об'єкта класу з множинним успадкуванням.
+    // Пункт 4(4): створення об'єкта класу з множинним наслідуванням.
     TicketPurchase purchase(
         101,
         1500.0,
@@ -931,6 +1425,128 @@ int main()
 
     std::cout << "\n========== SYSTEM DEMONSTRATION COMPLETED =========="
         << std::endl;
+
+    // П'ята лабораторна
+
+    std::cout << "\n=== Fifth lab ===\n" << std::endl;
+
+    // Пункт 1(5) - Створення об'єктів похідних класів
+    StandardTicket standardTicket(1, "Rock Concert", 1000);
+    VipTicket vipTicket(2, "Rock Concert", 1000, 800);
+    StudentTicket studentTicket(3, "Rock Concert", 1000, 20);
+
+    TicketType* ticketTypes[3] =
+    {
+        &standardTicket,
+        &vipTicket,
+        &studentTicket
+    };
+
+    for (int i = 0; i < 3; i++)
+    {
+        ticketTypes[i]->ShowDetails();
+    }
+
+    // Пункт 2(5) - Демонстрація віртуального наслідування
+    StaffMember staff(
+        10,
+        "Ivan Petrenko",
+        "+380991112233",
+        "ivan@gmail.com",
+        25,
+        "Khmelnytskyi",
+        "Main Street",
+        "Rock Concert",
+        "20.12.2026",
+        "19:00",
+        "Concert Hall",
+        "Rock Band"
+    );
+
+    staff.ShowStaffInfo();
+    staff.Visitor::ShowInfo();
+    staff.Manager::ShowInfo();
+
+    // Пункт 3(5) - Порівняння віртуального та невіртуального деструкторів
+
+    std::cout << "\n--- Non-virtual destructor ---" << std::endl;
+
+    NonVirtualBase* nonVirtual = new NonVirtualDerived();
+    delete nonVirtual;
+
+    std::cout << "\n--- Virtual destructor ---" << std::endl;
+
+    VirtualBase* virtualObject = new VirtualDerived();
+    delete virtualObject;
+
+    // Пункт 4(5) - Віртуальні функції в класах відкритої ієрархії наслідування
+
+    Person* people[4];
+
+    people[0] = new Person();
+    people[1] = new Visitor();
+    people[2] = new Manager();
+    people[3] = new StaffMember(
+        4,
+        "Test Staff",
+        "0987654321",
+        "staff@example.com",
+        25,
+        "Khmelnytskyi",
+        "Test address",
+        "Rock Concert",
+        "2026-12-01",
+        "18:00",
+        "Concert Hall",
+        "Test Singer"
+    );
+
+    for (int i = 0; i < 4; i++)
+    {
+        std::cout << people[i]->GetRoleDescription() << std::endl;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        delete people[i];
+    }
+
+    // Пункт 5(5) - Створення 5 об'єктів в динамічній та статичній пам'яті
+    CreateStaticTickets();
+    CreateDynamicTickets();
+
+    TestExceptions();
+    TestPurchaseException();
+    TestFileException();
+
+    // Пункт 6(5) - Видалення об'єктів з масивів
+    TestStaticService();
+    TestDynamicService();
+
+    // Пункт 7(5) - Перевірка роботи Service
+    if (argc < 2)
+    {
+        std::cerr << "Usage: program.exe <file_name>\n";
+        return 1;
+    }
+
+    TestFileService(argv[1]);
+
+    // Пункт 9(5) - Демонстрація поліморфних викликів трьома способами
+    TestPolymorphismByPointer();
+    TestPolymorphismByReference();
+    TestPolymorphismByArray();
+    TestTicketTypePolymorphism();
+
+    // Пункт 10(5) - Поліморфний виклик методів за допомогою зв'язувань
+    TestBinding();
+
+    // Пункт 11(5) - Демонстрація обходу віртуальних функцій
+    TestVirtualFunctionBypass();
+
+
+    // Пункт 8(5) - Запуск меню
+    RunTicketMenu();
 
     delete[] visitors;
 

@@ -23,7 +23,9 @@ public:
         const std::string& concertName
     );
 
-    ~TicketPurchase();
+    // Пункт 3(5) Перевизначення батьківського деструктора
+    ~TicketPurchase() override;
 
-    void CompletePurchase();
+    // Пункт 4(5) Перевизначення батьківських функцій
+    virtual void CompletePurchase();
 };

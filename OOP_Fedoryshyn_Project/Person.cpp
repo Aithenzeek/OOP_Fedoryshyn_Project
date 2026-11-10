@@ -76,3 +76,13 @@ void Person::SetPhone(const std::string& newPhone)
 {
     phone = newPhone;
 }
+
+std::string Person::GetRoleDescription() const
+{
+    return "Person";
+}
+
+void Person::ShowBindingType() const
+{
+    std::cout << "Static binding: Person method\n";
+}

@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConcertManager.cpp" />
+    <ClCompile Include="DestructorDemo.cpp" />
     <ClCompile Include="InheritanceDemo.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Notification.cpp" />
@@ -147,14 +148,22 @@
     <ClCompile Include="Payment.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PrivateManager.cpp" />
+    <ClCompile Include="Service.cpp" />
+    <ClCompile Include="StaffMember.cpp" />
+    <ClCompile Include="StandardTicket.cpp" />
+    <ClCompile Include="StudentTicket.cpp" />
     <ClCompile Include="Ticket.cpp" />
+    <ClCompile Include="TicketManager.cpp" />
     <ClCompile Include="TicketPurchase.cpp" />
     <ClCompile Include="TicketSale.cpp" />
+    <ClCompile Include="TicketType.cpp" />
     <ClCompile Include="TicketUtils.cpp" />
+    <ClCompile Include="VipTicket.cpp" />
     <ClCompile Include="Visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConcertManager.h" />
+    <ClInclude Include="DestructorDemo.h" />
     <ClInclude Include="InheritanceDemo.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Notification.h" />
@@ -162,10 +171,17 @@
     <ClInclude Include="Person.h" />
     <ClInclude Include="PrivateManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="StaffMember.h" />
+    <ClInclude Include="StandardTicket.h" />
+    <ClInclude Include="StudentTicket.h" />
     <ClInclude Include="Ticket.h" />
+    <ClInclude Include="TicketManager.h" />
     <ClInclude Include="TicketPurchase.h" />
     <ClInclude Include="TicketSale.h" />
+    <ClInclude Include="TicketType.h" />
     <ClInclude Include="TicketUtils.h" />
+    <ClInclude Include="VipTicket.h" />
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>

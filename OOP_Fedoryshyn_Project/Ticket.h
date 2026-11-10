@@ -2,6 +2,9 @@
 
 #include <string>
 #include "Manager.h"
+#include <iostream>
+#include <iomanip>
+#include <stdexcept>
 
 // Пункт 1(2) - Визначено користувацький клас Ticket згідно з варіантом завдання з не менше чим 8 полями
 // Пункт 2(2) - надано класу мінімум 3 загальних та 5 приватних елементів та відображено викорастання усіх полів даних в методах
@@ -40,14 +43,18 @@ public:
     bool CompareTicket(const Ticket& other);
     Ticket CreateCopy();
 
-    // Пункт4(3) - Створення статичного метода
+    // Пункт 4(3) - Створення статичного метода
     static void ShowTicketCount();
 
-    // Пункт 5(2) визначено в класі методи для запису у файл та читання з файлу полів даних
+    // Пункт 5(2) - Визначено в класі методи для запису у файл та читання з файлу полів даних
     void SaveToFile(const std::string& file_name);
     void LoadFromFile(const std::string& file_name);
 
     void GenerateAndSortPrices();
+
+    // Пункт 7(5) - Методи читання та запису
+    void Write(std::ostream& out) const;
+    void Read(std::istream& in);
 
 private:
     std::string date_;

@@ -302,3 +302,13 @@ void Visitor::ShowBaseClassAccess()
     std::cout << "Name: " << name << std::endl;
     std::cout << "Phone: " << phone << std::endl;
 }
+
+std::string Visitor::GetRoleDescription() const
+{
+    return "Concert visitor";
+}
+
+void Visitor::ShowBindingType() const
+{
+    std::cout << "Static binding: Visitor method\n";
+}

@@ -34,4 +34,10 @@ public:
     void ShowPersonInfo();
     void SetName(const std::string& newName);
     void SetPhone(const std::string& newPhone);
+
+    // Пункт 4(5) - Віртуальна функція
+    virtual std::string GetRoleDescription() const;
+
+    // Пункт 10(5) - Звичайна функція
+    void ShowBindingType() const;
 };

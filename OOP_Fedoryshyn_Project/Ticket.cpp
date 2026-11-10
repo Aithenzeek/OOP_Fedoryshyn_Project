@@ -233,3 +233,43 @@ void Ticket::ShowTicketCount() {
     std::cout << "Current number of Ticket objects: "
         << ticketCount << std::endl;
 }
+
+// Пункт 7(5) Створення методу запису
+void Ticket::Write(std::ostream& out) const
+{
+    out << id << '\n';
+    out << price << '\n';
+    out << std::quoted(concertName) << '\n';
+    out << std::quoted(date_) << '\n';
+    out << std::quoted(time_) << '\n';
+    out << std::quoted(sector_) << '\n';
+    out << row_ << '\n';
+    out << seat_ << '\n';
+    out << std::quoted(ticketType_) << '\n';
+    out << isSold_ << '\n';
+
+    if (!out)
+    {
+        throw std::runtime_error("Failed to write ticket data.");
+    }
+}
+
+// Пункт 7(5) Створення методу читання
+void Ticket::Read(std::istream& in)
+{
+    in >> id;
+    in >> price;
+    in >> std::quoted(concertName);
+    in >> std::quoted(date_);
+    in >> std::quoted(time_);
+    in >> std::quoted(sector_);
+    in >> row_;
+    in >> seat_;
+    in >> std::quoted(ticketType_);
+    in >> isSold_;
+
+    if (!in)
+    {
+        throw std::runtime_error("Failed to read ticket data.");
+    }
+}
